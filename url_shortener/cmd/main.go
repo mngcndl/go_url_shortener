@@ -19,7 +19,7 @@ var store common.Storage
 
 func main() {
     storageType := flag.String("storage", "postgres", "Storage type (postgres / memory)")
-    postgresURL := flag.String("postgres-url", "postgres://user:password@localhost/dbname?sslmode=disable", "URL for accessing PostgreSQL")
+    postgresURL := flag.String("postgres-url", "postgres://user:password@localhost/url_shortener?sslmode=disable", "URL for accessing PostgreSQL")
     flag.Parse()
 
     if *storageType == "postgres" && *postgresURL == "" {

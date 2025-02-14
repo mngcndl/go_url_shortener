@@ -8,6 +8,6 @@ type Config struct {
 func LoadConfig(storageType, postgresURL string) *Config {
     return &Config{
         StorageType: storageType,
-           PostgresURL: "postgres://user:password@postgres:5432/dbname?sslmode=disable",
+           PostgresURL: "postgres://user:password@postgres:5432/url_shortener?sslmode=disable",
     }
 }
