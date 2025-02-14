@@ -1,4 +1,4 @@
-module github.com/mngcndl/shortener
+module github.com/mngcndl/go_url_shortener
 
 go 1.23
 

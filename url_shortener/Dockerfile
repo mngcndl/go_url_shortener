@@ -10,13 +10,12 @@ COPY . .
 RUN go build -o main ./cmd/main.go
 
 FROM alpine:latest
-# RUN apk --no-cache add ca-certificates
 WORKDIR /root/
 COPY --from=builder /app/main .
 
 ENV POSTGRES_USER=user
 ENV POSTGRES_PASSWORD=password
-ENV POSTGRES_DB=db_name
+ENV POSTGRES_DB=url_shortener
 
 COPY init.sql /docker-entrypoint-initdb.d/
 

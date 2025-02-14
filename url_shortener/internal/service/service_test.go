@@ -2,7 +2,7 @@ package service
 
 import (
 	"testing"
-	"github.com/mngcndl/shortener/internal/storage"
+	"github.com/mngcndl/go_url_shortener/internal/storage"
 )
 
 func TestService_CreateShortURL(t *testing.T) {

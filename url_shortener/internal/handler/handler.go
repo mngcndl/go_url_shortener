@@ -2,7 +2,7 @@ package handler
 
 import (
 	"net/http"
-	"github.com/mngcndl/shortener/internal/common"
+	"github.com/mngcndl/go_url_shortener/internal/common"
 	"log"
 	"encoding/json"
 )

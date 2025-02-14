@@ -8,11 +8,11 @@ import (
     "database/sql"
     "time"
     _ "github.com/lib/pq"
-	"github.com/mngcndl/shortener/internal/common"
-	"github.com/mngcndl/shortener/internal/storage"
-	"github.com/mngcndl/shortener/internal/handler"
-	"github.com/mngcndl/shortener/internal/service"
-	"github.com/mngcndl/shortener/config"
+    "github.com/mngcndl/go_url_shortener/internal/common"
+	"github.com/mngcndl/go_url_shortener/internal/storage"
+	"github.com/mngcndl/go_url_shortener/internal/handler"
+	"github.com/mngcndl/go_url_shortener/internal/service"
+	"github.com/mngcndl/go_url_shortener/config"
 )
 
 var store common.Storage

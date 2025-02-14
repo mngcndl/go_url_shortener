@@ -2,8 +2,8 @@ package service
 
 import (
 	"errors"
-	"github.com/mngcndl/shortener/internal/common"
-	"github.com/mngcndl/shortener/pkg/shortener"
+	"github.com/mngcndl/go_url_shortener/internal/common"
+	"github.com/mngcndl/go_url_shortener/pkg/shortener"
 )
 
 type service struct {
