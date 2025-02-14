@@ -1,6 +1,7 @@
 package main
 
 import (
+    "flag"
 	"log"
 	"net/http"
 	"os"
@@ -14,9 +15,18 @@ import (
 var store common.Storage
 
 func main() {
-    cfg := config.LoadConfig()
+    storageType := flag.String("storage", "postgres", "Storage type (postgres / memory)")
+    postgresURL := flag.String("postgres-url", "postgres://user:password@localhost/dbname?sslmode=disable", "URL for accessing PostgreSQL")
+    flag.Parse()
+
+    if *storageType == "postgres" && *postgresURL == "" {
+        log.Fatal("Flag -postgres-url is required when using postgres storage")
+    }
+    // cfg := config.LoadConfig()
+    cfg := config.LoadConfig(*storageType, *postgresURL)
     var err error
-    
+
+    log.Printf("The storage type: %s", cfg.StorageType)
     switch cfg.StorageType {
     case "memory":
         store = storage.NewMemoryStorage()
@@ -50,17 +60,3 @@ func getPort() string {
 	}
 	return port
 }
-
-// func redirectHandler(w http.ResponseWriter, r *http.Request) {
-// 	shortURL := r.URL.Path[1:]
-// 	originalURL, found, err := store.Get(shortURL)
-// 	if err != nil {
-// 		http.Error(w, "Failed to retrieve URL", http.StatusInternalServerError)
-// 		return
-// 	}
-// 	if !found {
-// 		http.Error(w, "Short URL not found", http.StatusNotFound)
-// 		return
-// 	}
-// 	http.Redirect(w, r, originalURL, http.StatusFound)
-// }
