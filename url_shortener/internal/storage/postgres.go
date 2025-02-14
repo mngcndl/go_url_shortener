@@ -39,3 +39,15 @@ func (s *PostgresStorage) Get(short string) (string, bool, error) {
 	}
 	return original, true, nil
 }
+
+func (s *PostgresStorage) GetShortByOriginal(original string) (string, bool, error) {
+	var short string
+	err := s.db.QueryRow("SELECT short FROM urls WHERE original = $1", original).Scan(&short)
+	if err == sql.ErrNoRows {
+		return "", false, nil
+	}
+	if err != nil {
+		return "", false, err
+	}
+	return short, true, nil
+}

@@ -29,3 +29,12 @@ func (s *MemoryStorage) Get(short string) (string, bool, error) {
 	}
 	return original, true, nil
 }
+
+func (s *MemoryStorage) GetShortByOriginal(original string) (string, bool, error) {
+	for short, orig := range s.store {
+		if orig == original {
+			return short, true, nil
+		}
+	}
+	return "", false, nil
+}

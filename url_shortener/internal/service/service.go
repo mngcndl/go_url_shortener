@@ -17,6 +17,14 @@ func NewService(storage common.Storage) common.Service {
 }
 
 func (s *service) CreateShortURL(original string) (string, error) {
+	short, exists, err := s.storage.GetShortByOriginal(original)
+	if err != nil {
+		return "", err
+	}
+	if exists {
+		return short, nil
+	}
+	
 	short, errSh := shortenHandler.GenerateShortURL()
 	if errSh != nil {
 		return "", errSh
