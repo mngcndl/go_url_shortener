@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"github.com/mngcndl/shortener/internal/common"
 	"log"
+	"encoding/json"
 )
 
 // type Handler struct {
@@ -41,7 +42,18 @@ func (h *handler) CreateShortURL(w http.ResponseWriter, r *http.Request) {
 	}
 
 	log.Printf("Created short URL: %s -> %s", short, original)
-	w.Write([]byte(short))
+	
+	response := map[string]string{
+		"original": original,
+		"short":    short,
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(http.StatusOK) 
+    json.NewEncoder(w).Encode(response)
+	// jsonResponse, _ := json.Marshal(response)
+	// w.Write(jsonResponse)
+	// w.Write([]byte(short))
 }
 
 func (h *handler) GetOriginalURL(w http.ResponseWriter, r *http.Request) {
