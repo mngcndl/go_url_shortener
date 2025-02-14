@@ -5,6 +5,9 @@ import (
 	"log"
 	"net/http"
 	"os"
+    "database/sql"
+    "time"
+    _ "github.com/lib/pq"
 	"github.com/mngcndl/shortener/internal/common"
 	"github.com/mngcndl/shortener/internal/storage"
 	"github.com/mngcndl/shortener/internal/handler"
@@ -22,7 +25,6 @@ func main() {
     if *storageType == "postgres" && *postgresURL == "" {
         log.Fatal("Flag -postgres-url is required when using postgres storage")
     }
-    // cfg := config.LoadConfig()
     cfg := config.LoadConfig(*storageType, *postgresURL)
     var err error
 
@@ -31,9 +33,10 @@ func main() {
     case "memory":
         store = storage.NewMemoryStorage()
     case "postgres":
+        waitForPostgres(cfg.PostgresURL)
         store, err = storage.NewPostgresStorage(cfg.PostgresURL)
         if err != nil {
-            log.Fatal("Failed to connect to PostgreSQL: %v", err)
+            log.Fatalf("Failed to connect to PostgreSQL: %v", err)
         }
     default:
         log.Fatal("Invalid storage type")
@@ -59,4 +62,24 @@ func getPort() string {
 		port = "8080"
 	}
 	return port
+}
+
+func waitForPostgres(postgresURL string) {
+    for {
+        db, err := sql.Open("postgres", postgresURL)
+        if err != nil {
+            log.Printf("Error opening database: %v", err)
+            time.Sleep(2 * time.Second)
+            continue
+        }
+
+        err = db.Ping()
+        if err == nil {
+            log.Println("PostgreSQL is ready!")
+            return
+        }
+
+        log.Println("Waiting for PostgreSQL to be ready...")
+        time.Sleep(2 * time.Second)
+    }
 }
