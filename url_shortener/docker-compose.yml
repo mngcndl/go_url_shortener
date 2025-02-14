@@ -12,6 +12,8 @@ services:
       - POSTGRES_URL=postgres://user:password@db:5432/dbname?sslmode=disable
     depends_on:
       - postgres
+    networks:
+      - app-network
 
   postgres:
     image: postgres:13
@@ -20,5 +22,12 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
       POSTGRES_DB: dbname
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-network
     ports:
       - "5432:5432"
+
+networks:
+  app-network:
